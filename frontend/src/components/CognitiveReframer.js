@@ -338,11 +338,10 @@ const CognitiveReframer = () => {
                   value={currentAnswer}
                   onChange={(e) => setCurrentAnswer(e.target.value)}
                   placeholder="Take your time to reflect and write your thoughts..."
+                  className="glass-input"
                   style={{
                     width: '100%',
                     minHeight: '120px',
-                    background: 'rgba(45, 55, 72, 0.6)',
-                    border: '1px solid rgba(255, 255, 255, 0.1)',
                     borderRadius: '12px',
                     padding: '1rem',
                     color: '#E2E8F0',
