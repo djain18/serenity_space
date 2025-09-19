@@ -106,10 +106,13 @@ const CognitiveReframer = () => {
     // Fetch AI-powered questions based on the negative thought
     await fetchQuestions(negativeThought);
     
-    setMode('session');
-    setCurrentStep(0);
-    setAnswers([]);
-    setCurrentAnswer('');
+    // Only proceed to session mode if we have questions
+    if (questions.length > 0) {
+      setMode('session');
+      setCurrentStep(0);
+      setAnswers([]);
+      setCurrentAnswer('');
+    }
   };
 
   const handleAnswerSubmit = () => {
