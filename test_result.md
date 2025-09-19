@@ -118,7 +118,7 @@ backend:
         comment: "Implemented comprehensive FastAPI backend with user preferences, CBT sessions, Zen sessions, articles, and favorites endpoints. Added theme color generation and sample wellness articles seeding."
       - working: true
         agent: "testing"
-        comment: "✅ COMPREHENSIVE BACKEND TESTING COMPLETED - All 18 tests passed (100% success rate). Health check confirmed API running at https://mindretreat.preview.emergentagent.com/api. All core endpoints functional with proper JSON responses and data validation."
+        comment: "✅ COMPREHENSIVE BACKEND TESTING COMPLETED - All 18 tests passed (100% success rate). Health check confirmed API running at https://zen-journey-8.preview.emergentagent.com/api. All core endpoints functional with proper JSON responses and data validation."
 
   - task: "User preferences API"
     implemented: true
@@ -322,4 +322,4 @@ agent_communication:
   - agent: "main"
     message: "Completed full-stack implementation of Serenity Space wellness app. Backend includes all required APIs with mood-based theming, CBT questions, and wellness articles. Frontend has complete onboarding flow, all 5 modules (Zen, Visual, Music, CBT, Articles), and privacy-first localStorage. Ready for backend testing first, then frontend testing with user permission."
   - agent: "testing"
-    message: "🎉 BACKEND TESTING COMPLETE - ALL SYSTEMS OPERATIONAL! Comprehensive testing of all 11 core API endpoints completed with 100% success rate (18/18 tests passed). All critical functionality verified: health check, user preferences with mood-based theming, CBT questions and sessions, Zen session tracking, articles auto-seeding, and favorites system. Backend is production-ready and fully functional at https://mindretreat.preview.emergentagent.com/api. Ready for main agent to proceed with frontend integration or user testing."
+    message: "🎉 BACKEND TESTING COMPLETE - ALL SYSTEMS OPERATIONAL! Comprehensive testing of all 11 core API endpoints completed with 100% success rate (18/18 tests passed). All critical functionality verified: health check, user preferences with mood-based theming, CBT questions and sessions, Zen session tracking, articles auto-seeding, and favorites system. Backend is production-ready and fully functional at https://zen-journey-8.preview.emergentagent.com/api. Ready for main agent to proceed with frontend integration or user testing."
