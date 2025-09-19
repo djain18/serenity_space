@@ -575,6 +575,12 @@ class SerenitySpaceAPITester:
         print("\n📚 Testing Articles and Favorites API...")
         articles_ok = self.test_articles_and_favorites()
         
+        print("\n🤖 Testing AI-Powered Dynamic CBT Questions...")
+        dynamic_cbt_ok = self.test_dynamic_cbt_questions()
+        
+        print("\n📊 Testing Usage Analytics System...")
+        analytics_ok = self.test_usage_analytics()
+        
         # Summary
         print("\n" + "=" * 60)
         print("📊 TEST SUMMARY")
@@ -596,7 +602,7 @@ class SerenitySpaceAPITester:
                 print(f"  • {test['test']}: {test['message']}")
         
         # Overall status
-        critical_apis = [health_ok, prefs_ok, questions_ok, cbt_ok, zen_ok, articles_ok]
+        critical_apis = [health_ok, prefs_ok, questions_ok, cbt_ok, zen_ok, articles_ok, dynamic_cbt_ok, analytics_ok]
         all_critical_passed = all(critical_apis)
         
         if all_critical_passed:
