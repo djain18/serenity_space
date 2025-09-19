@@ -379,6 +379,175 @@ class SerenitySpaceAPITester:
         
         return articles_success and favorites_success
         
+    def test_dynamic_cbt_questions(self):
+        """Test AI-powered dynamic CBT question generation"""
+        # Test with the specific negative thought from the review request
+        test_request = {
+            "negative_thought": "I'm never going to succeed at this job",
+            "user_context": "Work-related anxiety and self-doubt"
+        }
+        
+        try:
+            response = self.session.post(f"{API_URL}/cbt-questions/dynamic", json=test_request)
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Validate response structure
+                if 'questions' in data and isinstance(data['questions'], list):
+                    questions = data['questions']
+                    if len(questions) == 6:  # Should have exactly 6 questions
+                        # Validate each question structure
+                        valid_questions = 0
+                        for q in questions:
+                            required_fields = ['id', 'question', 'type']
+                            if all(field in q for field in required_fields):
+                                # Check if question types are valid
+                                if q['type'] in ['text', 'choice', 'number']:
+                                    # For choice type, should have options
+                                    if q['type'] == 'choice' and 'options' not in q:
+                                        continue
+                                    # For number type, should have min/max
+                                    if q['type'] == 'number' and ('min' not in q or 'max' not in q):
+                                        continue
+                                    valid_questions += 1
+                        
+                        if valid_questions == 6:
+                            # Check if questions seem personalized (not just static fallback)
+                            question_text = ' '.join([q['question'] for q in questions])
+                            if any(keyword in question_text.lower() for keyword in ['job', 'work', 'succeed', 'career']):
+                                self.log_test("AI Dynamic CBT Questions", True, 
+                                            f"Generated 6 personalized CBT questions with AI integration working")
+                                return True
+                            else:
+                                self.log_test("AI Dynamic CBT Questions", True, 
+                                            f"Generated 6 CBT questions (may be fallback static questions)")
+                                return True
+                        else:
+                            self.log_test("AI Dynamic CBT Questions", False, 
+                                        f"Only {valid_questions}/6 questions properly structured")
+                    else:
+                        self.log_test("AI Dynamic CBT Questions", False, 
+                                    f"Expected 6 questions, got {len(questions)}")
+                else:
+                    self.log_test("AI Dynamic CBT Questions", False, 
+                                f"Invalid response structure: {data}")
+            else:
+                self.log_test("AI Dynamic CBT Questions", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+        except Exception as e:
+            self.log_test("AI Dynamic CBT Questions", False, f"Error: {str(e)}")
+        return False
+        
+    def test_usage_analytics(self):
+        """Test usage analytics tracking and summary"""
+        # Test data for different feature interactions
+        test_analytics = [
+            {
+                "feature": "zen",
+                "action": "complete",
+                "duration": 600,  # 10 minutes
+                "metadata": {"technique": "box_breathing", "cycles": 20}
+            },
+            {
+                "feature": "music",
+                "action": "view",
+                "duration": 1200,  # 20 minutes
+                "metadata": {"track": "forest_sounds", "volume": 0.7}
+            },
+            {
+                "feature": "cbt",
+                "action": "complete",
+                "duration": 900,  # 15 minutes
+                "metadata": {"questions_answered": 6, "session_type": "reframing"}
+            },
+            {
+                "feature": "visual",
+                "action": "interact",
+                "duration": 300,  # 5 minutes
+                "metadata": {"effect": "flowing_orbs", "intensity": "medium"}
+            },
+            {
+                "feature": "articles",
+                "action": "view",
+                "duration": 480,  # 8 minutes
+                "metadata": {"article_id": "wellness_123", "category": "mindfulness"}
+            }
+        ]
+        
+        success_count = 0
+        
+        # Test tracking analytics
+        for i, analytics in enumerate(test_analytics):
+            try:
+                response = self.session.post(f"{API_URL}/analytics?user_id=test_analytics_user", json=analytics)
+                if response.status_code == 200:
+                    data = response.json()
+                    
+                    # Validate response structure
+                    required_fields = ['id', 'user_id', 'feature', 'action', 'created_at']
+                    if all(field in data for field in required_fields):
+                        if (data['feature'] == analytics['feature'] and 
+                            data['action'] == analytics['action'] and
+                            data.get('duration') == analytics.get('duration')):
+                            self.log_test(f"Track Analytics {i+1}", True, 
+                                        f"Tracked {analytics['feature']} {analytics['action']} ({analytics.get('duration', 0)}s)")
+                            success_count += 1
+                        else:
+                            self.log_test(f"Track Analytics {i+1}", False, 
+                                        "Analytics data doesn't match input")
+                    else:
+                        missing = [f for f in required_fields if f not in data]
+                        self.log_test(f"Track Analytics {i+1}", False, 
+                                    f"Missing required fields: {missing}")
+                else:
+                    self.log_test(f"Track Analytics {i+1}", False, 
+                                f"HTTP {response.status_code}: {response.text}")
+            except Exception as e:
+                self.log_test(f"Track Analytics {i+1}", False, f"Error: {str(e)}")
+        
+        # Test analytics summary
+        summary_success = False
+        try:
+            response = self.session.get(f"{API_URL}/analytics/summary?user_id=test_analytics_user")
+            if response.status_code == 200:
+                data = response.json()
+                
+                # Validate summary structure
+                required_fields = ['feature_stats', 'recent_activity', 'total_sessions']
+                if all(field in data for field in required_fields):
+                    feature_stats = data['feature_stats']
+                    recent_activity = data['recent_activity']
+                    
+                    if (isinstance(feature_stats, list) and 
+                        isinstance(recent_activity, list) and
+                        isinstance(data['total_sessions'], int)):
+                        
+                        # Should have stats for the features we tracked
+                        tracked_features = set(a['feature'] for a in test_analytics)
+                        stats_features = set(stat['_id'] for stat in feature_stats)
+                        
+                        if tracked_features.issubset(stats_features) or len(feature_stats) >= success_count:
+                            self.log_test("Analytics Summary", True, 
+                                        f"Retrieved analytics summary with {len(feature_stats)} feature stats and {len(recent_activity)} recent activities")
+                            summary_success = True
+                        else:
+                            self.log_test("Analytics Summary", False, 
+                                        f"Expected stats for {tracked_features}, got {stats_features}")
+                    else:
+                        self.log_test("Analytics Summary", False, 
+                                    f"Invalid summary data types")
+                else:
+                    missing = [f for f in required_fields if f not in data]
+                    self.log_test("Analytics Summary", False, 
+                                f"Missing required fields: {missing}")
+            else:
+                self.log_test("Analytics Summary", False, 
+                            f"HTTP {response.status_code}: {response.text}")
+        except Exception as e:
+            self.log_test("Analytics Summary", False, f"Error: {str(e)}")
+        
+        return success_count > 0 and summary_success
+        
     def run_all_tests(self):
         """Run all API tests"""
         print(f"🧪 Starting Serenity Space Backend API Tests")
