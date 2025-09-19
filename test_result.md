@@ -237,15 +237,18 @@ frontend:
 
   - task: "AI-powered Cognitive Reframer with dynamic questions"
     implemented: true
-    working: false
+    working: true
     file: "/app/frontend/src/components/CognitiveReframer.js"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "ENHANCED FEATURE: Updated CognitiveReframer to use new AI-powered dynamic question generation endpoint. Now generates personalized CBT questions based on user's specific negative thought using Google Gemini Pro. Applied glassmorphism design improvements."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: AI-powered Cognitive Reframer working excellently. Component loads with beautiful interface for entering negative thoughts. Successfully integrates with backend /api/cbt-questions/dynamic endpoint for AI-generated personalized CBT questions using Google Gemini Pro. Includes fallback to static questions if AI fails. Session interface with progress tracking, question-answer flow, and completion handling all functional. Glassmorphism design applied throughout with smooth animations."
 
   - task: "Settings component with theme customization and analytics"
     implemented: true
