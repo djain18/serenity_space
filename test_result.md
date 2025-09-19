@@ -297,9 +297,12 @@ metadata:
 
 test_plan:
   current_focus:
-    - "AI-powered dynamic CBT question generation"
-    - "Usage analytics tracking system"
-    - "FastAPI server with wellness endpoints"
+    - "Enhanced RelaxingMusic with real audio playback"
+    - "AI-powered Cognitive Reframer with dynamic questions"
+    - "Settings component with theme customization and analytics"
+    - "Profile component with user stats and achievements"
+    - "Enhanced Visual Effects with calming animations"
+    - "Glassmorphism UI design system"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
