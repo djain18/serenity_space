@@ -223,7 +223,103 @@ const CognitiveReframer = () => {
   }
 
   if (mode === 'session') {
+    // Show loading state if questions are still being fetched
+    if (isLoadingQuestions || !questions || questions.length === 0) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+          padding: '2rem'
+        }}>
+          <motion.div
+            className="glass-card"
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            style={{
+              borderRadius: '20px',
+              padding: '3rem',
+              textAlign: 'center',
+              maxWidth: '500px'
+            }}
+          >
+            <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>🤖</div>
+            <h2 style={{ fontSize: '2rem', color: '#E2E8F0', marginBottom: '1rem' }}>
+              Generating Personalized Questions
+            </h2>
+            <p style={{ color: '#A0AEC0', fontSize: '1.1rem' }}>
+              Our AI is crafting therapeutic questions specifically for your thought...
+            </p>
+            <motion.div
+              style={{
+                width: '50px',
+                height: '4px',
+                background: 'linear-gradient(135deg, #667EEA, #764BA2)',
+                borderRadius: '2px',
+                margin: '2rem auto'
+              }}
+              animate={{ scaleX: [1, 1.5, 1] }}
+              transition={{ duration: 1.5, repeat: Infinity }}
+            />
+          </motion.div>
+        </div>
+      );
+    }
+
     const currentQuestion = questions[currentStep];
+    
+    // Additional safety check
+    if (!currentQuestion) {
+      return (
+        <div style={{
+          minHeight: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          background: 'linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%)',
+          padding: '2rem'
+        }}>
+          <motion.div
+            className="glass-card"
+            style={{
+              borderRadius: '20px',
+              padding: '3rem',
+              textAlign: 'center',
+              maxWidth: '500px'
+            }}
+          >
+            <div style={{ fontSize: '3rem', marginBottom: '1.5rem' }}>⚠️</div>
+            <h2 style={{ fontSize: '2rem', color: '#E2E8F0', marginBottom: '1rem' }}>
+              Session Error
+            </h2>
+            <p style={{ color: '#A0AEC0', fontSize: '1.1rem', marginBottom: '2rem' }}>
+              Unable to load questions. Please try starting a new session.
+            </p>
+            <button
+              onClick={() => {
+                setMode('home');
+                setCurrentStep(0);
+                setAnswers([]);
+                setCurrentAnswer('');
+              }}
+              style={{
+                background: 'linear-gradient(135deg, #667EEA, #764BA2)',
+                border: 'none',
+                borderRadius: '12px',
+                padding: '0.75rem 2rem',
+                color: 'white',
+                cursor: 'pointer',
+                fontWeight: '600'
+              }}
+            >
+              Back to Home
+            </button>
+          </motion.div>
+        </div>
+      );
+    }
     
     return (
       <div style={{
