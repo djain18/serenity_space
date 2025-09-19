@@ -30,6 +30,15 @@ function App() {
     if (userPrefs) {
       setCurrentStep('dashboard');
       setShowSidebar(true);
+    } else {
+      // If no preferences but user is trying to access a direct route, 
+      // check current path to determine if we should skip landing
+      const currentPath = window.location.pathname;
+      if (currentPath !== '/' && currentPath !== '/landing') {
+        // User is trying to access a direct route without onboarding
+        // Still redirect to landing, but we could optionally skip to onboarding
+        setCurrentStep('landing');
+      }
     }
   }, []);
 
