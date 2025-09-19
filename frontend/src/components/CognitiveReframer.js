@@ -20,9 +20,26 @@ const CognitiveReframer = () => {
     loadSessions();
   }, []);
 
-  const fetchQuestions = async () => {
+  const fetchQuestions = async (negativeThought = null) => {
     try {
-      const response = await fetch(`${API}/cbt-questions`);
+      let response;
+      if (negativeThought) {
+        // Use AI-powered dynamic questions
+        response = await fetch(`${API}/cbt-questions/dynamic`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({
+            negative_thought: negativeThought,
+            user_context: "User seeking help with cognitive reframing through CBT techniques"
+          })
+        });
+      } else {
+        // Use static fallback questions
+        response = await fetch(`${API}/cbt-questions`);
+      }
+      
       const data = await response.json();
       setQuestions(data.questions);
     } catch (error) {
