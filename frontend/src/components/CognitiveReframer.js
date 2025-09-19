@@ -16,6 +16,7 @@ const CognitiveReframer = () => {
   const [currentAnswer, setCurrentAnswer] = useState('');
 
   useEffect(() => {
+    // Load initial static questions
     fetchQuestions();
     loadSessions();
   }, []);
@@ -95,8 +96,12 @@ const CognitiveReframer = () => {
     setSessions(newSessions);
   };
 
-  const startNewSession = () => {
+  const startNewSession = async () => {
     if (!negativeThought.trim()) return;
+    
+    // Fetch AI-powered questions based on the negative thought
+    await fetchQuestions(negativeThought);
+    
     setMode('session');
     setCurrentStep(0);
     setAnswers([]);
