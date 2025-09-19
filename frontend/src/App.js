@@ -21,24 +21,25 @@ import { ThemeProvider } from './context/ThemeContext';
 import { UserProvider } from './context/UserContext';
 
 function App() {
-  const [currentStep, setCurrentStep] = useState('landing'); // landing, onboarding, dashboard
+  const [currentStep, setCurrentStep] = useState('loading'); // loading, landing, onboarding, dashboard
   const [showSidebar, setShowSidebar] = useState(false);
 
   useEffect(() => {
     // Check if user has completed onboarding
     const userPrefs = localStorage.getItem('serenity_user_preferences');
+    const currentPath = window.location.pathname;
+    
     if (userPrefs) {
+      // User has completed onboarding, go straight to dashboard
       setCurrentStep('dashboard');
       setShowSidebar(true);
+    } else if (currentPath === '/' || currentPath === '/landing') {
+      // User is on home page without preferences, show landing
+      setCurrentStep('landing');
     } else {
-      // If no preferences but user is trying to access a direct route, 
-      // check current path to determine if we should skip landing
-      const currentPath = window.location.pathname;
-      if (currentPath !== '/' && currentPath !== '/landing') {
-        // User is trying to access a direct route without onboarding
-        // Still redirect to landing, but we could optionally skip to onboarding
-        setCurrentStep('landing');
-      }
+      // User is trying to access a component directly without onboarding
+      // Redirect them to onboarding first
+      setCurrentStep('onboarding');
     }
   }, []);
 
