@@ -174,6 +174,67 @@ async def get_cbt_questions():
         ]
     }
 
+# AI-Powered Dynamic CBT Questions
+@api_router.post("/cbt-questions/dynamic")
+async def generate_dynamic_cbt_questions(request: DynamicQuestionRequest):
+    """Generate personalized CBT questions using AI based on the user's negative thought"""
+    try:
+        # Initialize LLM chat with Gemini
+        api_key = os.environ.get('EMERGENT_LLM_KEY')
+        if not api_key:
+            raise HTTPException(status_code=500, detail="AI service not configured")
+        
+        chat = LlmChat(
+            api_key=api_key,
+            session_id=f"cbt-{uuid.uuid4()}",
+            system_message="""You are a cognitive behavioral therapy (CBT) expert. Generate 6 personalized, therapeutic questions to help the user reframe their negative thought. 
+
+The questions should:
+1. Follow CBT principles and techniques
+2. Be specific to the user's negative thought
+3. Help identify cognitive distortions
+4. Guide toward balanced thinking
+5. Be compassionate and non-judgmental
+6. Include a mix of question types (text, choice, number scale)
+
+Return ONLY a JSON object with this exact structure:
+{
+  "questions": [
+    {
+      "id": 1,
+      "question": "Question text here",
+      "type": "text|choice|number",
+      "options": ["option1", "option2"] (only for choice type),
+      "min": 0, "max": 100 (only for number type)
+    }
+  ]
+}"""
+        ).with_model("gemini", "gemini-2.0-flash")
+        
+        # Create user message
+        context_info = f" (Context: {request.user_context})" if request.user_context else ""
+        user_message = UserMessage(
+            text=f"Generate 6 personalized CBT questions for this negative thought: '{request.negative_thought}'{context_info}"
+        )
+        
+        # Get AI response
+        response = await chat.send_message(user_message)
+        
+        # Parse the response - assume it's JSON
+        import json
+        try:
+            questions_data = json.loads(response)
+            return questions_data
+        except json.JSONDecodeError:
+            # Fallback to default questions if parsing fails
+            logger.warning(f"Failed to parse AI response, using fallback questions")
+            return await get_cbt_questions()
+            
+    except Exception as e:
+        logger.error(f"Error generating dynamic questions: {str(e)}")
+        # Fallback to static questions
+        return await get_cbt_questions()
+
 # Zen Sessions
 @api_router.post("/zen-sessions", response_model=ZenSession)
 async def create_zen_session(input: ZenSessionCreate):
