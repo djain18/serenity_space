@@ -91,6 +91,8 @@ function App() {
                       <Route path="/music" element={<RelaxingMusic />} />
                       <Route path="/reframe" element={<CognitiveReframer />} />
                       <Route path="/journal" element={<JournalArticles />} />
+                      <Route path="/settings" element={<Settings />} />
+                      <Route path="/profile" element={<Profile />} />
                       <Route path="*" element={<Navigate to="/dashboard" replace />} />
                     </Routes>
                   </div>
