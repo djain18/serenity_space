@@ -282,6 +282,57 @@ async def get_favorite_articles(user_id: str = "anonymous"):
     favorites = await db.favorite_articles.find({"user_id": user_id}).to_list(1000)
     return [fav["article_id"] for fav in favorites]
 
+# Usage Analytics
+@api_router.post("/analytics", response_model=UsageAnalytics)
+async def track_usage(input: UsageAnalyticsCreate, user_id: str = "anonymous"):
+    """Track user interactions for analytics"""
+    analytics_dict = input.dict()
+    analytics_dict['user_id'] = user_id
+    analytics_obj = UsageAnalytics(**analytics_dict)
+    await db.usage_analytics.insert_one(analytics_obj.dict())
+    return analytics_obj
+
+@api_router.get("/analytics/summary")
+async def get_usage_summary(user_id: str = "anonymous"):
+    """Get usage analytics summary for a user"""
+    try:
+        # Get total sessions by feature
+        pipeline = [
+            {"$match": {"user_id": user_id}},
+            {"$group": {
+                "_id": "$feature",
+                "total_sessions": {"$sum": 1},
+                "total_duration": {"$sum": "$duration"}
+            }}
+        ]
+        
+        feature_stats = await db.usage_analytics.aggregate(pipeline).to_list(100)
+        
+        # Get recent activity (last 7 days)
+        from datetime import timedelta
+        week_ago = datetime.now(timezone.utc) - timedelta(days=7)
+        recent_activity = await db.usage_analytics.find({
+            "user_id": user_id,
+            "created_at": {"$gte": week_ago}
+        }).sort("created_at", -1).limit(20).to_list(20)
+        
+        return {
+            "feature_stats": feature_stats,
+            "recent_activity": [
+                {
+                    "feature": activity["feature"],
+                    "action": activity["action"],
+                    "duration": activity.get("duration"),
+                    "created_at": activity["created_at"].isoformat()
+                }
+                for activity in recent_activity
+            ],
+            "total_sessions": len(recent_activity)
+        }
+    except Exception as e:
+        logger.error(f"Error getting usage summary: {str(e)}")
+        return {"feature_stats": [], "recent_activity": [], "total_sessions": 0}
+
 # Helper functions
 def generate_theme_colors(mood: str, identity: str) -> Dict[str, str]:
     """Generate theme colors based on user's mood and identity"""
