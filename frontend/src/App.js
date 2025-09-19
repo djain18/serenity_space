@@ -59,6 +59,20 @@ function App() {
         <Router>
           <div className="app-container">
             <AnimatePresence mode="wait">
+              {currentStep === 'loading' && (
+                <motion.div
+                  key="loading"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  className="loading-screen"
+                >
+                  <div className="loading-content">
+                    <div className="loading-spinner"></div>
+                    <p>Loading Serenity Space...</p>
+                  </div>
+                </motion.div>
+              )}
+
               {currentStep === 'landing' && (
                 <motion.div
                   key="landing"
