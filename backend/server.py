@@ -78,6 +78,25 @@ class FavoriteArticle(BaseModel):
     article_id: str
     created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
 
+class DynamicQuestionRequest(BaseModel):
+    negative_thought: str
+    user_context: Optional[str] = None
+
+class UsageAnalytics(BaseModel):
+    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
+    user_id: str = Field(default="anonymous")
+    feature: str  # 'zen', 'music', 'cbt', 'visual', 'articles'
+    action: str  # 'view', 'complete', 'interact'
+    duration: Optional[int] = None  # in seconds
+    metadata: Optional[Dict[str, Any]] = None
+    created_at: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+
+class UsageAnalyticsCreate(BaseModel):
+    feature: str
+    action: str
+    duration: Optional[int] = None
+    metadata: Optional[Dict[str, Any]] = None
+
 # Basic endpoints
 @api_router.get("/")
 async def root():
