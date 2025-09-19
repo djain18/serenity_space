@@ -111,7 +111,7 @@ backend:
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: false
+    needs_retesting: true
     status_history:
       - working: true
         agent: "main"
@@ -119,6 +119,33 @@ backend:
       - working: true
         agent: "testing"
         comment: "✅ COMPREHENSIVE BACKEND TESTING COMPLETED - All 18 tests passed (100% success rate). Health check confirmed API running at https://zen-journey-8.preview.emergentagent.com/api. All core endpoints functional with proper JSON responses and data validation."
+      - working: false
+        agent: "main"
+        comment: "MAJOR BACKEND IMPROVEMENTS: Added emergentintegrations library with Google Gemini Pro for AI-powered dynamic CBT questions (/api/cbt-questions/dynamic), comprehensive usage analytics system (/api/analytics), and enhanced therapeutic capabilities. Needs retesting to verify new AI integration works properly."
+
+  - task: "AI-powered dynamic CBT question generation"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "high"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "NEW FEATURE: Implemented AI-powered CBT question generation using Google Gemini Pro through emergentintegrations library. Creates personalized therapeutic questions based on user's negative thought input. Includes fallback to static questions if AI fails."
+
+  - task: "Usage analytics tracking system"
+    implemented: true
+    working: false
+    file: "/app/backend/server.py"
+    stuck_count: 0
+    priority: "medium"
+    needs_retesting: true
+    status_history:
+      - working: false
+        agent: "main"
+        comment: "NEW FEATURE: Added comprehensive usage analytics with endpoints /api/analytics and /api/analytics/summary. Tracks user interactions across all features (zen, music, cbt, visual, articles) with duration and metadata. Provides insights for Settings page."
 
   - task: "User preferences API"
     implemented: true
