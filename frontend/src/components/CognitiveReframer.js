@@ -226,12 +226,10 @@ const CognitiveReframer = () => {
       }}>
         <div style={{ maxWidth: '700px', margin: '0 auto' }}>
           <motion.div
+            className="glass-card"
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             style={{
-              background: 'rgba(45, 55, 72, 0.8)',
-              backdropFilter: 'blur(20px)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '20px',
               padding: '2.5rem',
               marginBottom: '2rem'
