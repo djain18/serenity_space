@@ -192,12 +192,10 @@ const CognitiveReframer = () => {
         padding: '2rem'
       }}>
         <motion.div
+          className="glass-modal"
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           style={{
-            background: 'rgba(45, 55, 72, 0.8)',
-            backdropFilter: 'blur(20px)',
-            border: '1px solid rgba(255, 255, 255, 0.1)',
             borderRadius: '20px',
             padding: '3rem',
             textAlign: 'center',
