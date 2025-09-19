@@ -13,6 +13,8 @@ import VisualEffects from './components/VisualEffects';
 import RelaxingMusic from './components/RelaxingMusic';
 import CognitiveReframer from './components/CognitiveReframer';
 import JournalArticles from './components/JournalArticles';
+import Settings from './components/Settings';
+import Profile from './components/Profile';
 
 // Theme Context
 import { ThemeProvider } from './context/ThemeContext';
