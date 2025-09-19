@@ -14,6 +14,7 @@ const CognitiveReframer = () => {
   const [questions, setQuestions] = useState([]);
   const [sessions, setSessions] = useState([]);
   const [currentAnswer, setCurrentAnswer] = useState('');
+  const [isLoadingQuestions, setIsLoadingQuestions] = useState(false);
 
   useEffect(() => {
     // Load initial static questions
