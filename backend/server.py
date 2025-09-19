@@ -220,14 +220,24 @@ Return ONLY a JSON object with this exact structure:
         # Get AI response
         response = await chat.send_message(user_message)
         
-        # Parse the response - assume it's JSON
+        # Parse the response - clean markdown formatting first
         import json
         try:
-            questions_data = json.loads(response)
+            # Remove markdown code block formatting if present
+            cleaned_response = response.strip()
+            if cleaned_response.startswith('```json'):
+                cleaned_response = cleaned_response[7:]  # Remove ```json
+            if cleaned_response.startswith('```'):
+                cleaned_response = cleaned_response[3:]  # Remove ```
+            if cleaned_response.endswith('```'):
+                cleaned_response = cleaned_response[:-3]  # Remove trailing ```
+            cleaned_response = cleaned_response.strip()
+            
+            questions_data = json.loads(cleaned_response)
             return questions_data
-        except json.JSONDecodeError:
+        except json.JSONDecodeError as e:
             # Fallback to default questions if parsing fails
-            logger.warning(f"Failed to parse AI response, using fallback questions")
+            logger.warning(f"Failed to parse AI response: {e}, response was: {response}")
             return await get_cbt_questions()
             
     except Exception as e:
