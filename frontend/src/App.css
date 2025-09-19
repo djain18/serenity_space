@@ -357,8 +357,9 @@ body {
 }
 
 .practice-module {
-  background: rgba(45, 55, 72, 0.6);
-  backdrop-filter: blur(20px);
+  background: rgba(45, 55, 72, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 20px;
   padding: 2.5rem;
@@ -387,6 +388,9 @@ body {
 
 .practice-module:hover {
   transform: translateY(-8px) scale(1.02);
+  background: rgba(45, 55, 72, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-color: rgba(102, 126, 234, 0.3);
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
 }
