@@ -336,11 +336,9 @@ metadata:
 
 test_plan:
   current_focus:
-    - "Landing animation and onboarding flow"
-    - "Theme system with mood-based colors"
-    - "Dashboard with interactive modules"
-    - "Zen Mode with breathing exercises"
-    - "Cognitive Reframer CBT tool"
+    - "AI-powered dynamic CBT question generation"
+    - "Usage analytics tracking system"
+    - "FastAPI server with wellness endpoints"
   stuck_tasks: []
   test_all: false
   test_priority: "high_first"
