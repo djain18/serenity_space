@@ -122,30 +122,39 @@ backend:
       - working: false
         agent: "main"
         comment: "MAJOR BACKEND IMPROVEMENTS: Added emergentintegrations library with Google Gemini Pro for AI-powered dynamic CBT questions (/api/cbt-questions/dynamic), comprehensive usage analytics system (/api/analytics), and enhanced therapeutic capabilities. Needs retesting to verify new AI integration works properly."
+      - working: true
+        agent: "testing"
+        comment: "✅ ENHANCED BACKEND TESTING COMPLETED - All 25 tests passed (100% success rate). Fixed missing environment variables (MONGO_URL, DB_NAME) and AI response parsing issue. Confirmed AI-powered dynamic CBT questions working with Gemini Pro integration generating personalized therapeutic questions. Usage analytics system fully functional with tracking and summary endpoints. All existing APIs remain stable."
 
   - task: "AI-powered dynamic CBT question generation"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "NEW FEATURE: Implemented AI-powered CBT question generation using Google Gemini Pro through emergentintegrations library. Creates personalized therapeutic questions based on user's negative thought input. Includes fallback to static questions if AI fails."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: AI-powered dynamic CBT questions working perfectly. Fixed JSON parsing issue with markdown code blocks from Gemini response. Successfully tested with 'I'm never going to succeed at this job' - generated 6 personalized, job-specific therapeutic questions. Fallback to static questions confirmed working if AI fails."
 
   - task: "Usage analytics tracking system"
     implemented: true
-    working: false
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "medium"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: false
         agent: "main"
         comment: "NEW FEATURE: Added comprehensive usage analytics with endpoints /api/analytics and /api/analytics/summary. Tracks user interactions across all features (zen, music, cbt, visual, articles) with duration and metadata. Provides insights for Settings page."
+      - working: true
+        agent: "testing"
+        comment: "✅ TESTED: Usage analytics system fully functional. Successfully tracked 5 different feature interactions (zen, music, cbt, visual, articles) with proper duration and metadata storage. Analytics summary endpoint returns feature stats and recent activity correctly. All data properly aggregated and retrievable."
 
   - task: "User preferences API"
     implemented: true
