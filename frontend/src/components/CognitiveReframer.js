@@ -293,7 +293,8 @@ const CognitiveReframer = () => {
                       style={{
                         background: currentAnswer === option 
                           ? 'rgba(102, 126, 234, 0.3)' 
-                          : 'rgba(45, 55, 72, 0.6)',
+                          : 'rgba(45, 55, 72, 0.4)',
+                        backdropFilter: 'blur(15px)',
                         border: currentAnswer === option 
                           ? '1px solid rgba(102, 126, 234, 0.5)' 
                           : '1px solid rgba(255, 255, 255, 0.1)',
@@ -302,7 +303,7 @@ const CognitiveReframer = () => {
                         color: '#E2E8F0',
                         cursor: 'pointer',
                         textAlign: 'left',
-                        transition: 'all 0.3s ease'
+                        transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
                       }}
                     >
                       {option}
