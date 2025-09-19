@@ -1,0 +1,8 @@
+Looking in indexes: https://pypi.org/simple, https://d33sy5i8bnduwe.cloudfront.net/simple/, https://d33sy5i8bnduwe.cloudfront.net/simple/
+Requirement already satisfied: emergentintegrations in /root/.venv/lib/python3.11/site-packages (0.1.0)
+Collecting openai==1.99.9 (from emergentintegrations)
+  Using cached openai-1.99.9-py3-none-any.whl.metadata (29 kB)
+Collecting litellm>=1.0.0 (from emergentintegrations)
+  Using cached litellm-1.77.1-py3-none-any.whl.metadata (41 kB)
+Requirement already satisfied: fastapi>=0.100.0 in /root/.venv/lib/python3.11/site-packages (from emergentintegrations) (0.110.1)
+Requirement already satisfied: uvicorn>=0.22.0 in /root/.venv/lib/python3.11/site-packages (from emergentintegrations) (0.25.0)
