@@ -204,25 +204,32 @@ body {
 }
 
 .onboarding-option {
-  background: rgba(45, 55, 72, 0.6);
-  backdrop-filter: blur(10px);
-  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(45, 55, 72, 0.4);
+  backdrop-filter: blur(25px);
+  -webkit-backdrop-filter: blur(25px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 16px;
   padding: 2rem;
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   text-align: center;
 }
 
 .onboarding-option:hover {
-  background: rgba(45, 55, 72, 0.8);
+  background: rgba(45, 55, 72, 0.6);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-color: rgba(102, 126, 234, 0.5);
   transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
 }
 
 .onboarding-option.selected {
   background: rgba(102, 126, 234, 0.2);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
   border-color: #667EEA;
+  box-shadow: 0 8px 24px rgba(102, 126, 234, 0.3);
 }
 
 .onboarding-option-icon {
