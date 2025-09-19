@@ -11,31 +11,45 @@ const VisualEffects = () => {
   const visualEffects = [
     {
       id: 'flowing-orbs',
-      title: 'Flowing Orbs',
-      description: 'Gentle floating spheres',
-      icon: '⭕',
+      title: 'Floating Lotus',
+      description: 'Gentle floating petals of tranquility',
+      icon: '🪷',
       component: FlowingOrbs
     },
     {
-      id: 'particle-rain',
-      title: 'Particle Rain',
-      description: 'Soothing falling particles',
-      icon: '🌧️',
+      id: 'particle-rain', 
+      title: 'Stardust Cascade',
+      description: 'Peaceful falling stardust particles',
+      icon: '✨',
       component: ParticleRain
     },
     {
       id: 'breathing-circle',
-      title: 'Breathing Circle',
-      description: 'Pulsing meditation visual',
-      icon: '🔵',
+      title: 'Meditation Pulse',
+      description: 'Synchronized breathing visualization',
+      icon: '🔮',
       component: BreathingCircle
     },
     {
       id: 'wave-pattern',
-      title: 'Wave Pattern',
-      description: 'Calming wave motions',
+      title: 'Zen Garden Waves',
+      description: 'Flowing water ripples for peace',
       icon: '🌊',
       component: WavePattern
+    },
+    {
+      id: 'aurora',
+      title: 'Aurora Dreams',
+      description: 'Soft northern lights display',
+      icon: '🌌',
+      component: AuroraEffect
+    },
+    {
+      id: 'mandala',
+      title: 'Sacred Mandala',
+      description: 'Rotating spiritual geometry',
+      icon: '🕸️',
+      component: MandalaEffect
     }
   ];
 
@@ -53,24 +67,22 @@ const VisualEffects = () => {
       }}>
         <EffectComponent intensity={intensity} speed={speed} />
         
-        {/* Controls overlay */}
-        <div style={{
+        {/* Controls overlay with glassmorphism */}
+        <div className="glass-modal" style={{
           position: 'fixed',
           top: '2rem',
           right: '2rem',
-          background: 'rgba(26, 32, 44, 0.9)',
-          backdropFilter: 'blur(20px)',
           borderRadius: '16px',
           padding: '1.5rem',
           color: '#E2E8F0',
-          minWidth: '200px'
+          minWidth: '220px'
         }}>
-          <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem' }}>
+          <h3 style={{ marginBottom: '1rem', fontSize: '1.2rem', fontWeight: '600' }}>
             {activeEffect.title}
           </h3>
           
           <div style={{ marginBottom: '1rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#A0AEC0' }}>
               Intensity: {intensity}
             </label>
             <input
@@ -79,12 +91,16 @@ const VisualEffects = () => {
               max="10"
               value={intensity}
               onChange={(e) => setIntensity(parseInt(e.target.value))}
-              style={{ width: '100%' }}
+              style={{ 
+                width: '100%',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '4px'
+              }}
             />
           </div>
           
           <div style={{ marginBottom: '1.5rem' }}>
-            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem' }}>
+            <label style={{ display: 'block', marginBottom: '0.5rem', fontSize: '0.9rem', color: '#A0AEC0' }}>
               Speed: {speed}
             </label>
             <input
@@ -93,25 +109,51 @@ const VisualEffects = () => {
               max="10"
               value={speed}
               onChange={(e) => setSpeed(parseInt(e.target.value))}
-              style={{ width: '100%' }}
+              style={{ 
+                width: '100%',
+                background: 'rgba(255, 255, 255, 0.1)',
+                borderRadius: '4px'
+              }}
             />
           </div>
           
           <button
             onClick={() => setActiveEffect(null)}
+            className="glass-button"
             style={{
               width: '100%',
-              background: 'rgba(239, 68, 68, 0.2)',
-              border: '1px solid rgba(239, 68, 68, 0.3)',
               borderRadius: '8px',
               padding: '0.5rem',
-              color: '#F87171',
-              cursor: 'pointer'
+              cursor: 'pointer',
+              color: '#F87171'
             }}
           >
-            Exit Visual
+            ✕ Exit Visual
           </button>
         </div>
+
+        {/* Breathing instruction overlay for breathing circle */}
+        {activeEffect.id === 'breathing-circle' && (
+          <div style={{
+            position: 'fixed',
+            bottom: '3rem',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            textAlign: 'center',
+            color: '#E2E8F0'
+          }}>
+            <motion.div
+              animate={{ opacity: [0.5, 1, 0.5] }}
+              transition={{ duration: 6 - speed * 0.4, repeat: Infinity }}
+              style={{ fontSize: '1.2rem', fontWeight: '500' }}
+            >
+              Breathe with the circle
+            </motion.div>
+            <div style={{ fontSize: '0.9rem', color: '#A0AEC0', marginTop: '0.5rem' }}>
+              Inhale as it grows • Exhale as it shrinks
+            </div>
+          </div>
+        )}
       </div>
     );
   }
@@ -140,7 +182,7 @@ const VisualEffects = () => {
             color: '#E2E8F0', 
             marginBottom: '1rem' 
           }}>
-            🌸 Visual Effects
+            🌸 Visual Meditation
           </h1>
           <p style={{ 
             fontSize: '1.2rem', 
@@ -148,7 +190,7 @@ const VisualEffects = () => {
             maxWidth: '600px',
             margin: '0 auto'
           }}>
-            Immerse yourself in calming visual experiences designed to soothe your mind
+            Immerse yourself in soothing visual experiences designed to calm your mind and enhance focus
           </p>
         </motion.div>
 
@@ -161,21 +203,20 @@ const VisualEffects = () => {
           {visualEffects.map((effect, index) => (
             <motion.div
               key={effect.id}
+              className="glass-card"
               style={{
-                background: 'rgba(45, 55, 72, 0.6)',
-                backdropFilter: 'blur(20px)',
-                border: '1px solid rgba(255, 255, 255, 0.1)',
                 borderRadius: '20px',
                 padding: '2.5rem',
                 textAlign: 'center',
                 cursor: 'pointer',
-                transition: 'all 0.3s ease'
+                transition: 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)'
               }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 + index * 0.1 }}
               whileHover={{ 
                 scale: 1.02,
+                y: -4,
                 borderColor: 'rgba(102, 126, 234, 0.3)'
               }}
               whileTap={{ scale: 0.98 }}
@@ -194,21 +235,22 @@ const VisualEffects = () => {
               </h3>
               <p style={{ 
                 color: '#A0AEC0', 
-                marginBottom: '1.5rem' 
+                marginBottom: '1.5rem',
+                fontSize: '0.95rem',
+                lineHeight: '1.5'
               }}>
                 {effect.description}
               </p>
-              <button style={{
-                background: 'linear-gradient(135deg, #667EEA, #764BA2)',
-                border: 'none',
-                borderRadius: '12px',
-                padding: '0.75rem 2rem',
-                color: 'white',
-                fontWeight: '600',
-                cursor: 'pointer',
-                transition: 'all 0.3s ease'
-              }}>
-                Start Visual
+              <button 
+                className="glass-button"
+                style={{
+                  borderRadius: '12px',
+                  padding: '0.75rem 2rem',
+                  fontWeight: '600',
+                  cursor: 'pointer'
+                }}
+              >
+                Begin Experience
               </button>
             </motion.div>
           ))}
@@ -217,14 +259,13 @@ const VisualEffects = () => {
         <div style={{ textAlign: 'center' }}>
           <button
             onClick={() => navigate('/dashboard')}
+            className="glass-button"
             style={{
-              background: 'rgba(45, 55, 72, 0.6)',
-              border: '1px solid rgba(255, 255, 255, 0.1)',
               borderRadius: '12px',
               padding: '0.75rem 2rem',
-              color: '#A0AEC0',
               cursor: 'pointer',
-              transition: 'all 0.3s ease'
+              transition: 'all 0.3s ease',
+              color: '#A0AEC0'
             }}
           >
             ← Back to Dashboard
