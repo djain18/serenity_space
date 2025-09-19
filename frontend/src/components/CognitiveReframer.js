@@ -24,6 +24,7 @@ const CognitiveReframer = () => {
 
   const fetchQuestions = async (negativeThought = null) => {
     try {
+      setIsLoadingQuestions(true);
       let response;
       if (negativeThought) {
         // Use AI-powered dynamic questions
@@ -43,7 +44,7 @@ const CognitiveReframer = () => {
       }
       
       const data = await response.json();
-      setQuestions(data.questions);
+      setQuestions(data.questions || []);
     } catch (error) {
       console.error('Error fetching questions:', error);
       // Fallback questions
@@ -82,6 +83,8 @@ const CognitiveReframer = () => {
           type: "text"
         }
       ]);
+    } finally {
+      setIsLoadingQuestions(false);
     }
   };
 
