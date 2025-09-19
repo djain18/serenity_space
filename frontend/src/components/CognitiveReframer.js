@@ -588,23 +588,23 @@ const CognitiveReframer = () => {
 
             <button
               onClick={startNewSession}
-              disabled={!negativeThought.trim()}
+              disabled={!negativeThought.trim() || isLoadingQuestions}
               style={{
                 width: '100%',
-                background: negativeThought.trim() 
+                background: (negativeThought.trim() && !isLoadingQuestions)
                   ? 'linear-gradient(135deg, #667EEA, #764BA2)' 
                   : 'rgba(107, 114, 128, 0.2)',
                 border: 'none',
                 borderRadius: '12px',
                 padding: '1rem 2rem',
-                color: negativeThought.trim() ? 'white' : '#6B7280',
+                color: (negativeThought.trim() && !isLoadingQuestions) ? 'white' : '#6B7280',
                 fontSize: '1.1rem',
                 fontWeight: '600',
-                cursor: negativeThought.trim() ? 'pointer' : 'not-allowed',
+                cursor: (negativeThought.trim() && !isLoadingQuestions) ? 'pointer' : 'not-allowed',
                 transition: 'all 0.3s ease'
               }}
             >
-              Begin Reframing Session
+              {isLoadingQuestions ? 'Generating AI Questions...' : 'Begin Reframing Session'}
             </button>
           </motion.div>
 
