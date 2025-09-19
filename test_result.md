@@ -307,7 +307,7 @@ test_plan:
     - "Enhanced Visual Effects with calming animations"
     - "Glassmorphism UI design system"
   stuck_tasks: []
-  test_all: false
+  test_all: true
   test_priority: "high_first"
 
 agent_communication:
